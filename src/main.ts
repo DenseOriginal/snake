@@ -23,7 +23,8 @@ const canvasWidth = canvasHeight;
 const rows = canvasHeight / gridSize;
 const columns = canvasWidth / gridSize;
 
-let snakeLength = 2;
+let snakeLength = 0;
+let snakeMinLength = 2;
 let snake: ISnake[] = Array<ISnake>();
 
 let currentDir: DIRECTION = DIRECTION.UP;
@@ -44,7 +45,7 @@ let deltaFrames = 0;
     randomizeApple();
     isDead = false;
     (document.getElementById('restartButton') as HTMLButtonElement).style.display = "none";
-    snakeLength = 2;
+    snakeLength = 0;
 }
 
 (window as any).draw = () => {
@@ -78,6 +79,12 @@ let deltaFrames = 0;
     for (let i = 0; i < columns; i++) {
         line(i * gridSize, 0, i * gridSize, canvasHeight);
     }
+
+    // Draw Highscore
+    noStroke();
+    fill(255);
+    textSize(30);
+    text('Score: ' + snakeLength, 20, 40);
 }
 
 (window as any).keyPressed = () => {
@@ -146,7 +153,7 @@ function moveSnake() {
 
     deltaFrames = 0;
     addLink(newPos.x, newPos.y);
-    snake.length = snakeLength;
+    snake.length = snakeLength + snakeMinLength;
     if(snake.filter(cur => isPosEqual(cur, newPos)).length > 1) die();
     
 }
