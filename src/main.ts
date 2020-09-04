@@ -23,7 +23,7 @@ const canvasWidth = canvasHeight;
 const rows = canvasHeight / gridSize;
 const columns = canvasWidth / gridSize;
 
-let snakeLength = 3;
+let snakeLength = 2;
 let snake: ISnake[] = Array<ISnake>();
 
 let currentDir: DIRECTION = DIRECTION.UP;
@@ -48,7 +48,12 @@ let isDead = false;
 (window as any).draw = () => {
     background(0);
 
-    snake.forEach(cur => drawAtPoint(cur.x, cur.y))
+    push()
+    colorMode(HSB, 100)
+    snake.forEach((cur, idx) => {
+        drawAtPoint(cur.x, cur.y, color((idx * 3 + 30) % 100, 100, 100))
+    });
+    pop();
 
     // Move And Cut Snake
     if(frameCount % speed == 0 && !isDead) {
@@ -134,7 +139,7 @@ function moveSnake() {
     if(newPos.x < 0 || newPos.x > rows - 1 ||
        newPos.y < 0 || newPos.y > columns - 1) {
            die()
-           
+           return;
        }
 
     addLink(newPos.x, newPos.y);
