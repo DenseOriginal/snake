@@ -37,10 +37,12 @@ let speed = 6;
 
 let isDead = false;
 
-let deltaFrames = 0;
+// Start at infinity to not start the game before pressing keys
+let deltaFrames = Infinity;
 
 (window as any).setup = () => {
     createCanvas(canvasWidth, canvasHeight);
+    snake = Array<ISnake>();
     addLink(rows / 2, columns / 2);
     randomizeApple();
     isDead = false;
@@ -87,6 +89,7 @@ let deltaFrames = 0;
 }
 
 (window as any).keyPressed = () => {
+    if(isDead) return;
     switch (keyCode) {
         case UP_ARROW:
             currentDir = currentDir === DIRECTION.DOWN ? DIRECTION.DOWN : DIRECTION.UP;
