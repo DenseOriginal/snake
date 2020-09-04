@@ -65,7 +65,6 @@ let deltaFrames = 0;
 
     drawAtPoint(applePos.x, applePos.y, color(255, 100, 100));
     if(isPosEqual(applePos, getSnakeHead())) {
-        console.log('Apple');
         snakeLength++;
         randomizeApple();
     }
