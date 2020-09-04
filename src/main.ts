@@ -36,6 +36,8 @@ let speed = 6;
 
 let isDead = false;
 
+let deltaFrames = 0;
+
 (window as any).setup = () => {
     createCanvas(canvasWidth, canvasHeight);
     addLink(rows / 2, columns / 2);
@@ -56,9 +58,8 @@ let isDead = false;
     pop();
 
     // Move And Cut Snake
-    if(frameCount % speed == 0 && !isDead) {
+    if(deltaFrames++ == speed && !isDead) {
         moveSnake();
-        snake.length = snakeLength;
     }
 
     drawAtPoint(applePos.x, applePos.y, color(255, 100, 100));
@@ -96,7 +97,8 @@ let isDead = false;
         case RIGHT_ARROW:
             currentDir = currentDir === DIRECTION.LEFT ? DIRECTION.LEFT : DIRECTION.RIGHT;
             break;
-    }
+    };
+    moveSnake();
 }
 
 function drawAtPoint(x: number, y: number, fillColor: Color = color(50, 255, 50)) {
@@ -142,8 +144,9 @@ function moveSnake() {
            return;
        }
 
+    deltaFrames = 0;
     addLink(newPos.x, newPos.y);
-
+    snake.length = snakeLength;
     if(snake.filter(cur => isPosEqual(cur, newPos)).length > 1) die();
     
 }
