@@ -10,7 +10,8 @@ enum DIRECTION {
     UP,
     DOWN,
     LEFT,
-    RIGHT
+    RIGHT,
+    EMPTY
 }
 
 const gridSize = 20;
@@ -27,7 +28,7 @@ let snakeLength = 0;
 let snakeMinLength = 2;
 let snake: ISnake[] = Array<ISnake>();
 
-let currentDir: DIRECTION = DIRECTION.UP;
+let currentDir: DIRECTION = DIRECTION.EMPTY;
 
 let applePos: ISnake;
 
@@ -48,6 +49,7 @@ let deltaFrames = Infinity;
     isDead = false;
     (document.getElementById('restartButton') as HTMLButtonElement).style.display = "none";
     snakeLength = 0;
+    currentDir = DIRECTION.EMPTY;
 }
 
 (window as any).draw = () => {
