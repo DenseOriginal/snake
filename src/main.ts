@@ -1,10 +1,12 @@
 /// <reference path="../node_modules/@types/p5/global.d.ts"/>
 import { Color } from "p5";
 
-interface ISnake {
+interface IPosition {
     x: number;
     y: number;
 }
+
+interface ISnake extends Array<IPosition> {};
 
 enum DIRECTION {
     UP,
@@ -26,13 +28,13 @@ const columns = canvasWidth / gridSize;
 
 let snakeLength = 0;
 let snakeMinLength = 2;
-let snake: ISnake[] = Array<ISnake>();
+let snake: ISnake = Array<IPosition>();
 
 let currentDir: DIRECTION = DIRECTION.EMPTY;
 
-let applePos: ISnake;
+let applePos: IPosition;
 
-const getSnakeHead = (): ISnake => snake[0];
+const getSnakeHead = (): IPosition => snake[0];
 
 let speed = 6;
 
@@ -43,7 +45,7 @@ let deltaFrames = Infinity;
 
 (window as any).setup = () => {
     createCanvas(canvasWidth, canvasHeight);
-    snake = Array<ISnake>();
+    snake = Array<IPosition>();
     addLink(rows / 2, columns / 2);
     randomizeApple();
     isDead = false;
@@ -125,7 +127,7 @@ function addLink(x: number, y: number) {
 }
 
 function moveSnake() {
-    let newPos: ISnake = JSON.parse(JSON.stringify(getSnakeHead()));
+    let newPos: IPosition = JSON.parse(JSON.stringify(getSnakeHead()));
 
     switch (currentDir) {
         case DIRECTION.UP:
@@ -169,7 +171,7 @@ function randomizeApple() {
     }
 }
 
-function isPosEqual(pos1: ISnake, pos2: ISnake) {
+function isPosEqual(pos1: IPosition, pos2: IPosition) {
     return pos1.x === pos2.x && pos1.y === pos2.y;
 }
 
