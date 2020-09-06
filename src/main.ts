@@ -19,9 +19,15 @@ enum DIRECTION {
 const gridSize = 20;
 
 // Make sure we don't have half cubes and only as many as we can????????
-let canvasHeight = window.innerHeight - (window.innerHeight / 100 * 10);
-canvasHeight -= (canvasHeight % gridSize);
-const canvasWidth = canvasHeight;
+// ^^ What does that even mean???????
+
+let length = Math.min(window.innerWidth, window.innerHeight);
+length -= (length / 100 * 10);
+length -= (length % gridSize);
+
+
+const canvasHeight = length;
+const canvasWidth = length;
 
 const rows = canvasHeight / gridSize;
 const columns = canvasWidth / gridSize;
