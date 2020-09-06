@@ -1,5 +1,6 @@
 /// <reference path="../node_modules/@types/p5/global.d.ts"/>
 import { Color } from "p5";
+import { Manager, Swipe, DIRECTION_ALL } from "hammerjs";
 
 interface IPosition {
     x: number;
@@ -58,6 +59,8 @@ let deltaFrames = Infinity;
     (document.getElementById('restartButton') as HTMLButtonElement).style.display = "none";
     snakeLength = 0;
     currentDir = DIRECTION.EMPTY;
+
+    setupGestures();
 }
 
 (window as any).draw = () => {
@@ -99,8 +102,13 @@ let deltaFrames = Infinity;
 }
 
 (window as any).keyPressed = () => {
+    changeDirection(keyCode);
+}
+
+function changeDirection(code: number) {
     if(isDead) return;
-    switch (keyCode) {
+
+    switch (code) {
         case UP_ARROW:
             currentDir = currentDir === DIRECTION.DOWN ? DIRECTION.DOWN : DIRECTION.UP;
             break;
@@ -117,6 +125,7 @@ let deltaFrames = Infinity;
             currentDir = currentDir === DIRECTION.LEFT ? DIRECTION.LEFT : DIRECTION.RIGHT;
             break;
     };
+
     moveSnake();
 }
 
@@ -187,3 +196,22 @@ function die() {
 }
 
 (document.getElementById('restartButton') as HTMLButtonElement).addEventListener('click', (window as any).setup);
+
+function setupGestures() {
+    let canvas = (document.getElementById('defaultCanvas0') as HTMLElement);
+    let mc = new Manager(canvas);
+    let McSwipe = new Swipe({
+        event: 'swipe',
+        pointers: 1,
+        threshold: 10,
+        direction: DIRECTION_ALL,
+        velocity: 0.3
+    });
+
+    mc.add(McSwipe);
+
+    mc.on('swipeleft', () => changeDirection(LEFT_ARROW));
+    mc.on('swiperight', () => changeDirection(RIGHT_ARROW));
+    mc.on('swipeup', () => changeDirection(UP_ARROW));
+    mc.on('swipedown', () => changeDirection(DOWN_ARROW));
+}

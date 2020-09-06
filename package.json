@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/hammerjs": "^2.0.36",
     "@types/node": "^14.6.3",
     "@types/p5": "^0.9.1",
     "ts-loader": "^8.0.3",
@@ -19,6 +20,7 @@
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
+    "hammerjs": "^2.0.8",
     "p5": "^1.1.9"
   }
 }
